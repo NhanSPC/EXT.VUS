@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+  <!--Table: BRHistory-->
+  <DBO name="PBS_EXT_VUS_BRHISTORY_{XXX}" type="U">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id=OBJECT_ID(N'dbo.[PBS_EXT_VUS_BRHISTORY_{XXX}]'))
+      BEGIN
+      CREATE TABLE [dbo].[PBS_EXT_VUS_BRHISTORY_{XXX}](
+      [BRANCH_HISTORY_ID] [int] NOT NULL,
+      [CHANGED_DATE] [datetime] NOT NULL,
+      [BRANCH_ID_STUDY] [int] NOT NULL,
+      [CLASS_ID] [int] NOT NULL,
+      [OPERATION_ID] [int] NOT NULL,
+      CONSTRAINT [PK_BRHISTORY] PRIMARY KEY CLUSTERED
+      (
+      [BRANCH_HISTORY_ID] ASC
+      )
+      )
+      END
+    </Install>
+  </DBO>
+  <DBO name="pbs_EXT_VUS_BRHISTORY_{XXX}_InsertUpdate" type="P">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[pbs_EXT_VUS_BRHISTORY_{XXX}_InsertUpdate]') AND OBJECTPROPERTY(id,N'IsProcedure') = 1)
+      BEGIN
+      EXEC dbo.sp_executesql @statement = N'
+      CREATE PROCEDURE [dbo].[pbs_EXT_VUS_BRHISTORY_{XXX}_InsertUpdate]
+      @BRANCH_HISTORY_ID int,
+      @CHANGED_DATE datetime,
+      @BRANCH_ID_STUDY int,
+      @CLASS_ID int,
+      @OPERATION_ID int
+      AS
+
+      SET NOCOUNT ON
+
+      IF EXISTS(SELECT BRANCH_HISTORY_ID FROM [dbo].[PBS_EXT_VUS_BRHISTORY_{XXX}] WHERE [BRANCH_HISTORY_ID] = @BRANCH_HISTORY_ID)
+      BEGIN
+      UPDATE [dbo].[PBS_EXT_VUS_BRHISTORY_{XXX}] SET
+      [CHANGED_DATE] = @CHANGED_DATE,
+      [BRANCH_ID_STUDY] = @BRANCH_ID_STUDY,
+      [CLASS_ID] = @CLASS_ID,
+      [OPERATION_ID] = @OPERATION_ID
+      WHERE [BRANCH_HISTORY_ID] = @BRANCH_HISTORY_ID
+      END
+      ELSE
+      BEGIN
+      INSERT INTO [dbo].[PBS_EXT_VUS_BRHISTORY_{XXX}] (
+      [BRANCH_HISTORY_ID],
+      [CHANGED_DATE],
+      [BRANCH_ID_STUDY],
+      [CLASS_ID],
+      [OPERATION_ID]
+      ) VALUES (
+      @BRANCH_HISTORY_ID,
+      @CHANGED_DATE,
+      @BRANCH_ID_STUDY,
+      @CLASS_ID,
+      @OPERATION_ID
+      )
+      END'
+      END
+    </Install>
+  </DBO>
+
+  <!--Table: CLHistory-->
+  <DBO name="PBS_EXT_VUS_CLHISTORY_{XXX}" type="U">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id=OBJECT_ID(N'dbo.[PBS_EXT_VUS_CLHISTORY_{XXX}]'))
+      BEGIN
+      CREATE TABLE [dbo].[PBS_EXT_VUS_CLHISTORY_{XXX}](
+      [CLASS_HISTORY_ID] [int] NOT NULL,
+      [CHANGED_DATE] [datetime] NOT NULL,
+      [CLASS_ID] [int] NOT NULL,
+      [CLASS_CODE] [nvarchar](150) NOT NULL,
+      [OPEN_DATE] [date] NOT NULL,
+      [CLOSE_DATE] [date] NOT NULL,
+      CONSTRAINT [PK_CLASS_HISTORY] PRIMARY KEY CLUSTERED
+      (
+      [CLASS_HISTORY_ID] ASC
+      )
+      )
+      END
+    </Install>
+  </DBO>
+  <DBO name="pbs_EXT_VUS_CLHISTORY_{XXX}_InsertUpdate" type="P">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[pbs_EXT_VUS_CLHISTORY_{XXX}_InsertUpdate]') AND OBJECTPROPERTY(id,N'IsProcedure') = 1)
+      BEGIN
+      EXEC dbo.sp_executesql @statement = N'
+      CREATE PROCEDURE [dbo].[pbs_EXT_VUS_CLHISTORY_{XXX}_InsertUpdate]
+      @CLASS_HISTORY_ID int,
+      @CHANGED_DATE datetime,
+      @CLASS_ID int,
+      @CLASS_CODE nvarchar (150),
+      @OPEN_DATE date,
+      @CLOSE_DATE date
+      AS
+
+      SET NOCOUNT ON
+
+      IF EXISTS(SELECT CLASS_HISTORY_ID FROM [dbo].[PBS_EXT_VUS_CLHISTORY_{XXX}] WHERE [CLASS_HISTORY_ID] = @CLASS_HISTORY_ID)
+      BEGIN
+      UPDATE [dbo].[PBS_EXT_VUS_CLHISTORY_{XXX}] SET
+      [CHANGED_DATE] = @CHANGED_DATE,
+      [CLASS_ID] = @CLASS_ID,
+      [CLASS_CODE] = @CLASS_CODE,
+      [OPEN_DATE] = @OPEN_DATE,
+      [CLOSE_DATE] = @CLOSE_DATE
+      WHERE [CLASS_HISTORY_ID] = @CLASS_HISTORY_ID
+      END
+      ELSE
+      BEGIN
+      INSERT INTO [dbo].[PBS_EXT_VUS_CLHISTORY_{XXX}] (
+      [CLASS_HISTORY_ID],
+      [CHANGED_DATE],
+      [CLASS_ID],
+      [CLASS_CODE],
+      [OPEN_DATE],
+      [CLOSE_DATE]
+      ) VALUES (
+      @CLASS_HISTORY_ID,
+      @CHANGED_DATE,
+      @CLASS_ID,
+      @CLASS_CODE,
+      @OPEN_DATE,
+      @CLOSE_DATE
+      )
+      END'
+      END
+    </Install>
+  </DBO>
+
+  <!--Table: REV-->
+  <DBO name="PBS_EXT_VUS_REV_{XXX}" type="U">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id=OBJECT_ID(N'dbo.[PBS_EXT_VUS_REV_{XXX}]'))
+      BEGIN
+      CREATE TABLE [dbo].[PBS_EXT_VUS_REV_{XXX}](
+      [OPERATION_ID] [int] NOT NULL,
+      [BRANCH_ID_STUDY] [int] NOT NULL,
+      [BRANCH_ID_PAYMENT] [int] NOT NULL,
+      [INVOICE_NO] [nvarchar](20) NOT NULL,
+      [INVOICE_NUMBER] [nvarchar](20) NOT NULL,
+      [INVOICE_DATE] [datetime] NOT NULL,
+      [TOTAL_PAYMENT] [decimal](18, 0) NOT NULL,
+      [CLASS_ID] [int] NOT NULL,
+      [CREATED_ON] [datetime] NOT NULL,
+      [CREATED_BY] [int] NOT NULL,
+      CONSTRAINT [PK_OPERATION] PRIMARY KEY CLUSTERED
+      (
+      [OPERATION_ID] ASC
+      )
+      )
+      END
+    </Install>
+  </DBO>
+  <DBO name="pbs_EXT_VUS_REV_{XXX}_InsertUpdate" type="P">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[pbs_EXT_VUS_REV_{XXX}_InsertUpdate]') AND OBJECTPROPERTY(id,N'IsProcedure') = 1)
+      BEGIN
+      EXEC dbo.sp_executesql @statement = N'
+      CREATE PROCEDURE [dbo].[pbs_EXT_VUS_REV_{XXX}_InsertUpdate]
+      @OPERATION_ID int,
+      @BRANCH_ID_STUDY int,
+      @BRANCH_ID_PAYMENT int,
+      @INVOICE_NO nvarchar (20),
+      @INVOICE_NUMBER nvarchar (20),
+      @INVOICE_DATE datetime,
+      @TOTAL_PAYMENT decimal(18, 0),
+      @CLASS_ID int,
+      @CREATED_ON datetime,
+      @CREATED_BY int
+      AS
+
+      SET NOCOUNT ON
+
+      IF EXISTS(SELECT OPERATION_ID FROM [dbo].[PBS_EXT_VUS_REV_{XXX}] WHERE [OPERATION_ID] = @OPERATION_ID)
+      BEGIN
+      UPDATE [dbo].[PBS_EXT_VUS_REV_{XXX}] SET
+      [BRANCH_ID_STUDY] = @BRANCH_ID_STUDY,
+      [BRANCH_ID_PAYMENT] = @BRANCH_ID_PAYMENT,
+      [INVOICE_NO] = @INVOICE_NO,
+      [INVOICE_NUMBER] = @INVOICE_NUMBER,
+      [INVOICE_DATE] = @INVOICE_DATE,
+      [TOTAL_PAYMENT] = @TOTAL_PAYMENT,
+      [CLASS_ID] = @CLASS_ID,
+      [CREATED_ON] = @CREATED_ON,
+      [CREATED_BY] = @CREATED_BY
+      WHERE [OPERATION_ID] = @OPERATION_ID
+      END
+      ELSE
+      BEGIN
+      INSERT INTO [dbo].[PBS_EXT_VUS_REV_{XXX}] (
+      [OPERATION_ID],
+      [BRANCH_ID_STUDY],
+      [BRANCH_ID_PAYMENT],
+      [INVOICE_NO],
+      [INVOICE_NUMBER],
+      [INVOICE_DATE],
+      [TOTAL_PAYMENT],
+      [CLASS_ID],
+      [CREATED_ON],
+      [CREATED_BY]
+      ) VALUES (
+      @OPERATION_ID,
+      @BRANCH_ID_STUDY,
+      @BRANCH_ID_PAYMENT,
+      @INVOICE_NO,
+      @INVOICE_NUMBER,
+      @INVOICE_DATE,
+      @TOTAL_PAYMENT,
+      @CLASS_ID,
+      @CREATED_ON,
+      @CREATED_BY
+      )
+      END'
+      END
+    </Install>
+  </DBO>
+</Root>
