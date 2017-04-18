@@ -127,6 +127,7 @@ Namespace EXT.VUS
         Private Sub New(ByVal dr As SafeDataReader)
             _classHistoryId = dr.GetInt32("CLASS_HISTORY_ID")
             _changedDate.Text = dr.GetDateTime("CHANGED_DATE")
+            _changedTime.Text = dr.GetDateTime("CHANGED_DATE")
             _classId.Text = dr.GetInt32("CLASS_ID")
             _classCode = dr.GetString("CLASS_CODE").TrimEnd
             _openDate.Text = dr.GetDateTime("OPEN_DATE")
