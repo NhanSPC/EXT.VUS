@@ -27,10 +27,12 @@ Namespace EXT.VUS
 
             Next
             'replace CurrentBECode and excecute contents in the list
+            Dim str As String = String.Empty
             For Each scr In scriplist
                 Try
                     Dim decoratedScript = scr.Replace("{XXX}", Context.CurrentBECode)
 
+                    str += decoratedScript
                     pbs.BO.SQLCommander.RunInsertUpdate(decoratedScript)
 
                 Catch ex As Exception

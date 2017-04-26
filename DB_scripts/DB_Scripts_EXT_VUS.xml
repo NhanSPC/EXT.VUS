@@ -218,4 +218,124 @@
       END
     </Install>
   </DBO>
+
+  <!--Table: REV-->
+  <DBO name="PBS_EXT_VUS_ALLOCATED_REV_{XXX}" type="U">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id=OBJECT_ID(N'dbo.[PBS_EXT_VUS_ALLOCATED_REV_{XXX}]'))
+      BEGIN
+      CREATE TABLE [dbo].[PBS_EXT_VUS_ALLOCATED_REV_{XXX}](
+      [LINE_NO] [int] IDENTITY(1,1) NOT NULL,
+      [OPERATION_ID] [int] NOT NULL,
+      [BRANCH_ID_STUDY] [int] NOT NULL,
+      [BRANCH_ID_PAYMENT] [int] NOT NULL,
+      [INVOICE_NO] [nvarchar](20) NOT NULL,
+      [INVOICE_NUMBER] [nvarchar](20) NOT NULL,
+      [INVOICE_DATE] [datetime] NOT NULL,
+      [PERIOD] [int] NOT NULL,
+      [AMOUNT] [decimal](18, 0) NOT NULL,
+      [TOTAL_PAYMENT] [decimal](18, 0) NOT NULL,
+      [CLASS_ID] [int] NOT NULL,
+      [CREATED_ON] [datetime] NOT NULL,
+      [CREATED_BY] [int] NOT NULL,
+      CONSTRAINT [PK_PBS_EXT_VUS_ALLOCATED_REV_{XXX}] PRIMARY KEY CLUSTERED
+      (
+      [LINE_NO] ASC
+      )
+      )
+      END
+    </Install>
+  </DBO>
+  <DBO name="pbs_EXT_VUS_ALLOCATED_REV_{XXX}_Insert" type="P">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[pbs_EXT_VUS_ALLOCATED_REV_{XXX}_Insert]') AND OBJECTPROPERTY(id,N'IsProcedure') = 1)
+      BEGIN
+      EXEC dbo.sp_executesql @statement = N'
+      CREATE PROCEDURE [dbo].[pbs_EXT_VUS_ALLOCATED_REV_{XXX}_Insert]
+      @LINE_NO int output,
+      @OPERATION_ID int,
+      @BRANCH_ID_STUDY int,
+      @BRANCH_ID_PAYMENT int,
+      @INVOICE_NO nvarchar (20),
+      @INVOICE_NUMBER nvarchar (20),
+      @INVOICE_DATE datetime,
+      @PERIOD int,
+      @AMOUNT decimal(18, 0),
+      @TOTAL_PAYMENT decimal(18, 0),
+      @CLASS_ID int,
+      @CREATED_ON datetime,
+      @CREATED_BY int
+      AS
+
+      SET NOCOUNT ON
+      INSERT INTO [dbo].[PBS_EXT_VUS_ALLOCATED_REV_{XXX}] ([OPERATION_ID],
+      [BRANCH_ID_STUDY],
+      [BRANCH_ID_PAYMENT],
+      [INVOICE_NO],
+      [INVOICE_NUMBER],
+      [INVOICE_DATE],
+      [PERIOD],
+      [AMOUNT],
+      [TOTAL_PAYMENT],
+      [CLASS_ID],
+      [CREATED_ON],
+      [CREATED_BY])
+      VALUES (@OPERATION_ID,
+      @BRANCH_ID_STUDY,
+      @BRANCH_ID_PAYMENT,
+      @INVOICE_NO,
+      @INVOICE_NUMBER,
+      @INVOICE_DATE,
+      @PERIOD,
+      @AMOUNT,
+      @TOTAL_PAYMENT,
+      @CLASS_ID,
+      @CREATED_ON,
+      @CREATED_BY)
+
+      SET @LINE_NO = SCOPE_IDENTITY()
+
+      '
+      END
+    </Install>
+  </DBO>
+  <DBO name="pbs_EXT_VUS_ALLOCATED_REV_{XXX}_Update" type="P">
+    <Install>
+      IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[pbs_EXT_VUS_ALLOCATED_REV_{XXX}_Update]') AND OBJECTPROPERTY(id,N'IsProcedure') = 1)
+      BEGIN
+      EXEC dbo.sp_executesql @statement = N'
+      CREATE PROCEDURE [dbo].[pbs_EXT_VUS_ALLOCATED_REV_{XXX}_Update]
+      @LINE_NO int,
+      @OPERATION_ID int,
+      @BRANCH_ID_STUDY int,
+      @BRANCH_ID_PAYMENT int,
+      @INVOICE_NO nvarchar (20),
+      @INVOICE_NUMBER nvarchar (20),
+      @INVOICE_DATE datetime,
+      @PERIOD int,
+      @AMOUNT decimal(18, 0),
+      @TOTAL_PAYMENT decimal(18, 0),
+      @CLASS_ID int,
+      @CREATED_ON datetime,
+      @CREATED_BY int
+      AS
+
+      SET NOCOUNT ON
+      UPDATE [dbo].[PBS_EXT_VUS_ALLOCATED_REV_{XXX}] SET [OPERATION_ID] = @OPERATION_ID,
+      [BRANCH_ID_STUDY] = @BRANCH_ID_STUDY,
+      [BRANCH_ID_PAYMENT] = @BRANCH_ID_PAYMENT,
+      [INVOICE_NO] = @INVOICE_NO,
+      [INVOICE_NUMBER] = @INVOICE_NUMBER,
+      [INVOICE_DATE] = @INVOICE_DATE,
+      [PERIOD] = @PERIOD,
+      [AMOUNT] = @AMOUNT,
+      [TOTAL_PAYMENT] = @TOTAL_PAYMENT,
+      [CLASS_ID] = @CLASS_ID,
+      [CREATED_ON] = @CREATED_ON,
+      [CREATED_BY] = @CREATED_BY
+      WHERE [LINE_NO] = @LINE_NO
+      '
+      END
+    </Install>
+  </DBO>
 </Root>
